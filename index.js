@@ -1,14 +1,32 @@
-/* Your Code Here */
+function createEmployeeRecord([firstName, familyName, title, payPerHour]){
+    const timeOutEvents = []
+    const timeInEvents = []
+    const employeeObject = {firstName, familyName, title, payPerHour, timeInEvents, timeOutEvents}
+    return employeeObject 
+}
 
-/*
- We're giving you this function. Take a look at it, you might see some usage
- that's new and different. That's because we're avoiding a well-known, but
- sneaky bug that we'll cover in the next few lessons!
-
- As a result, the lessons for this function will pass *and* it will be available
- for you to use if you need it!
- */
-
+function createEmployeeRecords(employees){
+    const employeeRecords = employees.map(createEmployeeRecord)
+        return employeeRecords
+    }
+    function createTimeInEvent(datestamp){
+        const timeInEvent = {type: "TimeIn", date: datestamp.split(" ")[0], hour: parseInt(datestamp.split(" ")[1])}
+        this.timeInEvents.push(timeInEvent)
+        return this
+    }
+    function createTimeOutEvent(datestamp){
+        const timeOutEvent = {type: "TimeOut", date: datestamp.split(" ")[0], hour: parseInt(datestamp.split(" ")[1])}
+        this.timeOutEvents.push(timeOutEvent)
+        return this
+    }
+    function hoursWorkedOnDate (date) {
+        const timeIn = this.timeInEvents.find(event => event.date === date)
+        const timeOut = this.timeOutEvents.find(event => event.date === date)
+        return (timeOut.hour - timeIn.hour)/100
+    }
+    function wagesEarnedOnDate(date){
+        return (this.payPerHour * hoursWorkedOnDate(date)) 
+    }
 const allWagesFor = function () {
     const eligibleDates = this.timeInEvents.map(function (e) {
         return e.date
@@ -21,3 +39,7 @@ const allWagesFor = function () {
     return payable
 }
 
+function calculatePayroll(array){
+    const reducer = (total, employeeRecord) => total + allWagesFor(employeeRecord)
+    return array.reduce(reducer, 0)
+}
